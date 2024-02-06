@@ -7,7 +7,24 @@ User=petani
 Group=pentani
 WorkingDirectory=/home/petani/app/src/
 Environment="PATH=/home/petani/app/venv/bin"
-ExecStart=/home/petani/app/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:80000
+EnvironmentFile=/home/petani/.env
+ExecStart=/home/petani/app/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
+
+[Install]
+WantedBy=multi-user.target
+
+// 
+[Unit]
+Description=demo fastapi application
+After=network.target
+
+[Service]
+User=petani
+Group=petani
+WorkingDirectory=/home/petani/app/src/
+Environment="PATH=/home/petani/app/venv/bin"
+EnvironmentFile=/home/petani/.env
+ExecStart=/home/petani/app/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
 
 [Install]
 WantedBy=multi-user.target
